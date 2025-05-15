@@ -27,7 +27,7 @@ export class CrearMesaComponent {
   form = this.formBuilder.group({
     numero: [''],
     capacidad: [0],
-    ubicacion: [0],
+    ubicacionId: [0],
   });
 
   ubicaciones = [

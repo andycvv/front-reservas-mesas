@@ -4,7 +4,6 @@
 ></app-titulo-principal>
 
 <form [formGroup]="form" (submit)="guardarCambios()">
-  <h3>Registrar nueva mesa</h3>
   <mat-form-field appearance="outline">
     <mat-label>Número de Mesa</mat-label>
     <input formControlName="numero" matInput />
@@ -23,7 +22,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Ubicación</mat-label>
-    <mat-select formControlName="ubicacion">
+    <mat-select formControlName="ubicacionId">
       <mat-option [value]="0">Seleccione una Ubicación</mat-option>
       @for (ubicacion of ubicaciones; track ubicacion.id) {
         <mat-option [value]="ubicacion.id">{{ubicacion.nombre}}</mat-option>
@@ -31,7 +30,7 @@
     </mat-select>
   </mat-form-field>
 
-  <div>
+  <div class="contenedor-botones">
     <button mat-flat-button>Guardar</button>
     <a mat-stroked-button routerLink="/mesas">Cancelar</a>
   </div>
