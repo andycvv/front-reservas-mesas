@@ -25,7 +25,7 @@ export class CrearMesaComponent {
   private formBuilder = inject(FormBuilder);
 
   form = this.formBuilder.group({
-    numero: [''],
+    numero: [0],
     capacidad: [0],
     ubicacionId: [0],
   });

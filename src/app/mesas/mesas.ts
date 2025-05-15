@@ -5,3 +5,11 @@ export interface MesaListadoDTO {
     estado: boolean,
     ubicacion: string
 }
+
+export interface MesaDTO {
+    id: number,
+    numero: number,
+    capacidad: number,
+    estado: boolean,
+    ubicacionId: number
+}
