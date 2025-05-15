@@ -1,1 +1,42 @@
 <app-titulo-principal [titulo]="'Listado de Mesas'" [parrafo]="'Revisa todas las mesas registradas en el sistema'"></app-titulo-principal>
+
+<a mat-flat-button routerLink="/mesas/crear">
+    <mat-icon>
+        folder
+    </mat-icon>
+    Crear Mesa
+</a>
+
+<div>
+    @for (mesa of mesas; track mesa.id) {
+        <div class="contenedor-mesa">
+            <div class="mesa-header">
+                <h3>Mesa {{mesa.numero}}</h3>
+                <span [class]="mesa.estado ? 'habilitado' : 'deshabilitado'">
+                    {{mesa.estado ? 'Habilitado' : 'Deshabilitado'}}
+                </span>
+            </div>
+            <p>Ubicación: {{mesa.ubicacion}}</p>
+            <p>
+                <mat-icon>
+                    group
+                </mat-icon>
+                Capacidad: {{mesa.capacidad}}
+            </p>
+            <div>
+                <a mat-flat-button [routerLink]="'/mesas/editar/' + mesa.id">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                    Editar
+                </a>
+                <button mat-flat-button class="warn">
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    }
+</div>
