@@ -1,1 +1,42 @@
-<app-titulo-principal [titulo]="'Editar Mesa'" [parrafo]="'Edita una mesa en el sistema'"></app-titulo-principal>
+<app-titulo-principal
+  [titulo]="'Editar Mesa'"
+  [parrafo]="'Edita una mesa en el sistema'"
+></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="guardarCambios()">
+  <mat-form-field appearance="outline">
+    <mat-label>Número de Mesa</mat-label>
+    <input formControlName="numero" matInput />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Capacidad</mat-label>
+    <mat-select formControlName="capacidad">
+      <mat-option [value]="0">Seleccione una Capacidad</mat-option>
+      <mat-option [value]="2">2</mat-option>
+      <mat-option [value]="4">4</mat-option>
+      <mat-option [value]="8">8</mat-option>
+      <mat-option [value]="10">10</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ubicación</mat-label>
+    <mat-select formControlName="ubicacionId">
+      <mat-option [value]="0">Seleccione una Ubicación</mat-option>
+      @for (ubicacion of ubicaciones; track ubicacion.id) {
+      <mat-option [value]="ubicacion.id">{{ ubicacion.nombre }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-radio-group aria-label="Select an option" formControlName="estado">
+    <mat-radio-button [value]="true">Habilitado</mat-radio-button>
+    <mat-radio-button [value]="false">Deshabilitado</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Guardar</button>
+    <a mat-stroked-button routerLink="/mesas">Cancelar</a>
+  </div>
+</form>
