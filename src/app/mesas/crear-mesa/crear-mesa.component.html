@@ -1,0 +1,37 @@
+<app-titulo-principal
+  [titulo]="'Crear Mesa'"
+  [parrafo]="'Registra una mesa en el sistema'"
+></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="guardarCambios()">
+  <mat-form-field appearance="outline">
+    <mat-label>Número de Mesa</mat-label>
+    <input formControlName="numero" matInput />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Capacidad</mat-label>
+    <mat-select formControlName="capacidad">
+      <mat-option [value]="0">Seleccione una Capacidad</mat-option>
+      <mat-option [value]="2">2</mat-option>
+      <mat-option [value]="4">4</mat-option>
+      <mat-option [value]="8">8</mat-option>
+      <mat-option [value]="10">10</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ubicación</mat-label>
+    <mat-select formControlName="ubicacionId">
+      <mat-option [value]="0">Seleccione una Ubicación</mat-option>
+      @for (ubicacion of ubicaciones; track ubicacion.id) {
+        <mat-option [value]="ubicacion.id">{{ubicacion.nombre}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Guardar</button>
+    <a mat-stroked-button routerLink="/mesas">Cancelar</a>
+  </div>
+</form>

@@ -1,4 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #F5F5F5;}
+
+:root {
+    --titulo-color: #015CDD;
+    --verdeClaro-color: #DCFCE7;
+    --verdeOscuro-color: #28734A;
+    --rojoClaro-color: #FCDCDD;
+    --rojoOscuro-color: #C00100;
+}
+
+mat-form-field {
+    display: block !important;
+}
+
+.contenedor-botones {
+    margin-top: 10px;
+}
+
+.warn {
+    background-color: var(--rojoOscuro-color) !important;
+}
