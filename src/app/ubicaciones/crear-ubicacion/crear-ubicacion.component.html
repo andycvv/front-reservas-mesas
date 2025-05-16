@@ -1,1 +1,16 @@
-<p>crear-ubicacion works!</p>
+<app-titulo-principal 
+  [titulo]="'Crear Ubicación'" 
+  [parrafo]="'Registra una ubicación en el sistema'"
+></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="guardarCambios()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Guardar</button>
+    <a mat-stroked-button routerLink="/ubicaciones">Cancelar</a>
+  </div>
+</form>
