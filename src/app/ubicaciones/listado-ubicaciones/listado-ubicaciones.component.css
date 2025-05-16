@@ -1,0 +1,33 @@
+.contenedor-ubicacion {
+  padding: 30px;
+  background-color: white;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+  button{
+    margin-left: 5px;
+  }
+}
+
+.ubicacion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+  }
+  span{
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 20px;
+  }
+  .habilitado{
+    background-color: var(--verdeClaro-color);
+    color: var(--verdeOscuro-color)
+  }
+  .deshabilitado{
+    background-color: var(--rojoClaro-color);
+    color: var(--rojoOscuro-color);
+  }
+}
