@@ -1,0 +1,25 @@
+<app-titulo-principal
+  [titulo]="'Crear Horario'"
+  [parrafo]="'Registra un horario en el sistema'"
+></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="guardarCambios()">
+  <mat-form-field>
+    <mat-label>Elige hora de inicio</mat-label>
+    <input matInput [matTimepicker]="picker" formControlName="horaDeInicio"/>
+    <mat-timepicker-toggle matIconSuffix [for]="picker" />
+    <mat-timepicker #picker />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Elige hora de fin</mat-label>
+    <input matInput [matTimepicker]="picker2" formControlName="horaDeFin"/>
+    <mat-timepicker-toggle matIconSuffix [for]="picker2" />
+    <mat-timepicker #picker2 />
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Guardar</button>
+    <a mat-stroked-button routerLink="/horarios">Cancelar</a>
+  </div>
+</form>

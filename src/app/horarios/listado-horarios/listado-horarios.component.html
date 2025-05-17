@@ -1,0 +1,36 @@
+<app-titulo-principal [titulo]="'Listado de Horarios'" [parrafo]="'Revisa todos los horarios registrados en el sistema'"></app-titulo-principal>
+
+<a mat-flat-button routerLink="/horarios/crear">
+    <mat-icon>
+        folder
+    </mat-icon>
+    Crear Horario
+</a>
+
+<div>
+    @for (horario of horarios; track $index) {
+        <div class="contenedor-horario">
+            <div class="horario-header">
+                <h3>Horario</h3>
+                <span [class]="horario.estado ? 'habilitado' : 'deshabilitado'">
+                    {{horario.estado ? 'Habilitado' : 'Deshabilitado'}}
+                </span>
+            </div>
+            <p>Intervalo: {{horario.horaDeInicio}} - {{horario.horaDeFin}}</p>
+            <div class="contenedor-botones">
+                <a mat-flat-button [routerLink]="'/horarios/editar/' + horario.id">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                    Editar
+                </a>
+                <button mat-flat-button class="warn">
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    }
+</div>
