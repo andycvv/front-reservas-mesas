@@ -1,0 +1,19 @@
+<app-titulo-principal [titulo]="'Editar Ubicación'"
+  [parrafo]="'Editar una ubicación en el sistema'"></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="guardarCambios()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+  </mat-form-field>
+
+  <mat-radio-group aria-label="Select an option" formControlName="estado">
+    <mat-radio-button [value]="true">Habilitado</mat-radio-button>
+    <mat-radio-button [value]="false">Deshabilitado</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Guardar</button>
+    <a mat-stroked-button routerLink="/ubicaciones">Cancelar</a>
+  </div>
+</form>

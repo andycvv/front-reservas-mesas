@@ -1,0 +1,39 @@
+<app-titulo-principal
+  [titulo]="'Listado de ubicaciones'"
+  [parrafo]="'Revisa todas las ubicaciones registradas en el sistema'"
+></app-titulo-principal>
+
+<a mat-flat-button routerLink="/ubicaciones/crear">
+    <mat-icon>
+        folder
+    </mat-icon>
+    Crear ubicación
+</a>
+
+<div>
+    @for (ubicacion of ubicaciones; track ubicacion.id) {
+        <div class="contenedor-ubicacion">
+            <div class="ubicacion-header">
+                <h3>Ubicación</h3>
+                <span [class]="ubicacion.estado ? 'habilitado' : 'deshabilitado'">
+                    {{ubicacion.estado ? 'Habilitado' : 'Deshabilitado'}}
+                </span>
+            </div>
+            <p>Nombre: {{ubicacion.nombre}}</p>
+            <div class="contenedor-botones">
+                <a mat-flat-button [routerLink]="'/ubicaciones/editar/' + ubicacion.id">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                    Editar
+                </a>
+                <button mat-flat-button class="warn">
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    }
+</div>
