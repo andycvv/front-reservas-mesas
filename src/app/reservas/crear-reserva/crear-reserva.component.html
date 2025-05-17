@@ -1,0 +1,77 @@
+<app-titulo-principal [titulo]="'Crear Reserva'"
+  [parrafo]="'Reserva una mesa en nuestro restaurante'"></app-titulo-principal>
+
+<form [formGroup]="form" (submit)="consultar()">
+  <mat-form-field appearance="outline">
+    <mat-label>Selecciona la fecha</mat-label>
+    <input formControlName="fecha" matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Horario</mat-label>
+    <mat-select formControlName="horarioId">
+      <mat-option [value]="0">Seleccione un horario</mat-option>
+      @for (horario of horarios; track horario.id) {
+      <mat-option [value]="horario.id">{{horario.horaDeInicio}} - {{horario.horaDeFin}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Cantida de Personas</mat-label>
+    <mat-select formControlName="cantidadDePersonas">
+      <mat-option [value]="0">Seleccione una cantidad</mat-option>
+      <mat-option [value]="2">2</mat-option>
+      <mat-option [value]="4">4</mat-option>
+      <mat-option [value]="6">6</mat-option>
+      <mat-option [value]="8">8</mat-option>
+      <mat-option [value]="10">10</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button mat-flat-button>Consultar</button>
+  </div>
+</form>
+
+@if (mesasDisponibles.length > 0) {
+<div class="contenedor-mesas-disponibles">
+  <h3>Mesas disponibles</h3>
+
+  <mat-radio-group [formControl]="mesaSeleccionadaId" aria-label="Select an option">
+    @for (mesa of mesasDisponibles; track mesa.id) {
+    <mat-radio-button [value]="mesa.id">
+      <span>
+        Mesa {{mesa.numero}} - Capacidad: {{mesa.capacidad}} - Ubicación: {{mesa.ubicacion}}
+      </span>
+    </mat-radio-button>
+    }
+  </mat-radio-group>
+</div>
+}
+
+@if (mesaSeleccionada) {
+<form [formGroup]="formDatosPersonales" (submit)="crearReserva()">
+  <h3>Datos personales</h3>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre Completo</mat-label>
+    <input formControlName="nombre" matInput />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Teléfono</mat-label>
+    <input formControlName="telefono" matInput />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>DNI</mat-label>
+    <input formControlName="dni" matInput />
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button class="limpiar" mat-stroked-button (click)="limpiar()">Limpiar</button>
+    <button mat-flat-button>Reservar</button>
+  </div>
+</form>
+}
