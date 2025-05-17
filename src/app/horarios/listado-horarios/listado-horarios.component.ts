@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { HorarioDTO } from '../horarios';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-listado-horarios',
@@ -11,7 +12,8 @@ import { HorarioDTO } from '../horarios';
     TituloPrincipalComponent, 
     MatIconModule, 
     MatButtonModule, 
-    RouterLink
+    RouterLink,
+    DatePipe
   ],
   templateUrl: './listado-horarios.component.html',
   styleUrl: './listado-horarios.component.css'
