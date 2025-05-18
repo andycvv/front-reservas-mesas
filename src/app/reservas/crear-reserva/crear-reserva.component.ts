@@ -60,6 +60,10 @@ export class CrearReservaComponent implements OnInit {
     this.mesaSeleccionadaId.valueChanges.subscribe(id => {
       this.mesaSeleccionada = this.mesasDisponibles.find(m => m.id === id);
     })
+
+    this.formDatosPersonales.patchValue({
+      dni: '78092832', nombre: 'Piero', telefono: '978676678'
+    });
   }
 
   consultar() {
@@ -81,12 +85,9 @@ export class CrearReservaComponent implements OnInit {
   crearReserva() {
     const reservaACrear: ReservaCreacionDTO = {
       clienteId: 2,
-      mesaId: this.mesaSeleccionada!.id,
       fechaDeReserva: this.form.controls.fecha.value!,
+      mesaId: this.mesaSeleccionada!.id,
       horarioId: this.form.controls.horarioId.value!,
-      nombreEnReserva: this.formDatosPersonales.controls.nombre.value!,
-      telefonoEnReserva: this.formDatosPersonales.controls.telefono.value!,
-      dni: this.formDatosPersonales.controls.dni.value!
     }
 
     console.log(reservaACrear);

@@ -1,9 +1,6 @@
 export interface ReservaCreacionDTO {
   clienteId: number;
-  nombreEnReserva: string;
-  telefonoEnReserva: string;
-  dni: string;
+  fechaDeReserva: Date;
   mesaId: number;
   horarioId: number;
-  fechaDeReserva: Date;
 }
