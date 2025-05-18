@@ -7,3 +7,8 @@ export interface UbicacionDTO {
 export interface UbicacionCreacionDTO {
   nombre: string;
 }
+
+export interface UbicacionEdicionDTO {
+  nombre: string;
+  estado: boolean;
+}
