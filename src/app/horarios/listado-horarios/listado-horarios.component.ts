@@ -12,8 +12,7 @@ import { DatePipe } from '@angular/common';
     TituloPrincipalComponent, 
     MatIconModule, 
     MatButtonModule, 
-    RouterLink,
-    DatePipe
+    RouterLink
   ],
   templateUrl: './listado-horarios.component.html',
   styleUrl: './listado-horarios.component.css'
