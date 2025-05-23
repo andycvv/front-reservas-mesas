@@ -5,7 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UbicacionesService } from '../ubicaciones.service';
+import { UbicacionCreacionDTO } from '../ubicaciones';
 
 @Component({
   selector: 'app-crear-ubicacion',
@@ -23,11 +25,17 @@ import { RouterLink } from '@angular/router';
 })
 export class CrearUbicacionComponent {
   private formBuilder = inject(FormBuilder);
+  private ubicacionesService = inject(UbicacionesService);
+  private router = inject(Router);
+
   form = this.formBuilder.group({
     nombre: ['']
   });
 
   guardarCambios() {
-    console.log(this.form.value)
+    const ubicacionDTO = this.form.value as UbicacionCreacionDTO;
+    this.ubicacionesService.crear(ubicacionDTO).subscribe(() => {
+      this.router.navigate(['/ubicaciones']);
+    })
   }
 }

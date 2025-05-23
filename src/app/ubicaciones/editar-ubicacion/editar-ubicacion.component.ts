@@ -5,9 +5,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
-import { UbicacionDTO } from '../ubicaciones';
+import { UbicacionDTO, UbicacionEdicionDTO } from '../ubicaciones';
+import { UbicacionesService } from '../ubicaciones.service';
 
 @Component({
   selector: 'app-editar-ubicacion',
@@ -29,22 +30,26 @@ export class EditarUbicacionComponent implements OnInit {
   id!: number;
 
   private formBuilder = inject(FormBuilder);
+  private ubicacionesService = inject(UbicacionesService);
+  private router = inject(Router);
+
   form = this.formBuilder.group({
     nombre: [''],
     estado: [false]
   });
 
   ngOnInit(): void {
-    const ubicacion: UbicacionDTO = {
-      id: this.id,
-      nombre: 'Centro',
-      estado: true
-    }
+    this.ubicacionesService.obtenerPorId(this.id).subscribe(ubicacion => {
+      this.form.patchValue(ubicacion);
+    })
 
-    this.form.patchValue(ubicacion);
   }
 
   guardarCambios() {
-    console.log(this.form.value)
+    const ubicacion = this.form.value as UbicacionEdicionDTO;
+
+    this.ubicacionesService.actualizar(this.id, ubicacion).subscribe(() => {
+      this.router.navigate(['/ubicaciones']);
+    });
   }
 }
