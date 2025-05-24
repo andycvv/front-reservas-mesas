@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TituloPrincipalComponent } from '../../compartidos/titulo-principal/titulo-principal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { MesaListadoDTO } from '../mesas';
+import { MesasService } from '../mesas.service';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-listado-mesas',
@@ -12,15 +14,28 @@ import { MesaListadoDTO } from '../mesas';
     MatButtonModule,
     MatIconModule,
     RouterLink,
+    SweetAlert2Module
   ],
   templateUrl: './listado-mesas.component.html',
   styleUrl: './listado-mesas.component.css',
 })
-export class ListadoMesasComponent {
-  mesas: MesaListadoDTO[] = [
-    { id: 1, numero: 3, capacidad: 2, estado: true, ubicacion: 'Ventana' },
-    { id: 2, numero: 5, capacidad: 10, estado: true, ubicacion: 'Pared' },
-    { id: 3, numero: 10, capacidad: 2, estado: false, ubicacion: 'Esquina' },
-    { id: 4, numero: 7, capacidad: 8, estado: true, ubicacion: 'Centro' },
-  ];
+export class ListadoMesasComponent implements OnInit{
+  private mesasService = inject(MesasService)
+
+  mesas: MesaListadoDTO[] = [];
+
+  ngOnInit(): void {
+    this.actualizarListado()
+  }
+
+  actualizarListado() {
+    this.mesasService.obtenerTodos().subscribe((mesas) => {
+      this.mesas = mesas
+    })
+  }
+
+  eliminar(id: number) {
+    this.mesasService.eliminar(id).subscribe(() => {this.actualizarListado()})
+  }
+  
 }

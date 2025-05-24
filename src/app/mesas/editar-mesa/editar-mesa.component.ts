@@ -5,9 +5,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatRadioModule } from '@angular/material/radio';
-import { MesaDTO } from '../mesas';
+import { MesaDTO, MesaEdicionDTO } from '../mesas';
+import { MesasService } from '../mesas.service';
+import { UbicacionesService } from '../../ubicaciones/ubicaciones.service';
+import { UbicacionDTO, UbicacionEdicionDTO } from '../../ubicaciones/ubicaciones';
 
 @Component({
   selector: 'app-editar-mesa',
@@ -26,6 +29,10 @@ import { MesaDTO } from '../mesas';
 })
 export class EditarMesaComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
+  private mesasService = inject(MesasService);
+  private ubicacionesService = inject(UbicacionesService)
+  private router = inject(Router)
+
   @Input({transform: numberAttribute})
   id!: number;
 
@@ -36,26 +43,21 @@ export class EditarMesaComponent implements OnInit {
     estado: [true],
   });
 
-  ubicaciones = [
-    { id: 1, nombre: 'Esquina' },
-    { id: 2, nombre: 'Centro' },
-    { id: 3, nombre: 'Pared' },
-    { id: 4, nombre: 'Ventana' },
-  ];
-
-  guardarCambios() {
-    console.log(this.form.value)
-  }
+  ubicaciones: UbicacionDTO[] = [];
 
   ngOnInit(): void {
-    console.log(this.id);
-    const mesa: MesaDTO = {
-      id: this.id,
-      numero: 7,
-      capacidad: 2,
-      estado: true,
-      ubicacionId: 1
-    }
-    this.form.patchValue(mesa);
+    this.mesasService.obtenerPorId(this.id).subscribe((mesa) => {
+      this.form.patchValue(mesa)
+    })
+
+    this.ubicacionesService.obtenerTodosActivos().subscribe((ubicaciones) => {
+      this.ubicaciones = ubicaciones
+    })
+  }
+
+  guardarCambios() {
+    this.mesasService.actualizar(this.id, this.form.value as MesaEdicionDTO).subscribe(() => {
+      this.router.navigate(['/mesas'])
+    })
   }
 }
