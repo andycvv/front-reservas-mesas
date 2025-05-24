@@ -14,6 +14,10 @@ export class UbicacionesService {
     return this.http.get<UbicacionDTO[]>(this.baseUrl + '/ubicaciones');
   }
 
+  public obtenerTodosActivos() {
+    return this.http.get<UbicacionDTO[]>(this.baseUrl + '/ubicaciones/activos')
+  }
+
   public obtenerPorId(id: number) {
     return this.http.get<UbicacionDTO>(this.baseUrl + '/ubicaciones/' + id);
   }
