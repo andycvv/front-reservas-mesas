@@ -1,11 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TituloPrincipalComponent } from '../../compartidos/titulo-principal/titulo-principal.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UbicacionesService } from '../../ubicaciones/ubicaciones.service';
+import { MesasService } from '../mesas.service';
+import { UbicacionDTO } from '../../ubicaciones/ubicaciones';
+import { MesaCreacionDTO } from '../mesas';
 
 @Component({
   selector: 'app-crear-mesa',
@@ -21,8 +25,11 @@ import { RouterLink } from '@angular/router';
   templateUrl: './crear-mesa.component.html',
   styleUrl: './crear-mesa.component.css',
 })
-export class CrearMesaComponent {
+export class CrearMesaComponent implements OnInit{
   private formBuilder = inject(FormBuilder);
+  private ubicacionesService = inject(UbicacionesService)
+  private mesasService = inject(MesasService)
+  private router = inject(Router)
 
   form = this.formBuilder.group({
     numero: [0],
@@ -30,14 +37,17 @@ export class CrearMesaComponent {
     ubicacionId: [0],
   });
 
-  ubicaciones = [
-    { id: 1, nombre: 'Esquina' },
-    { id: 2, nombre: 'Centro' },
-    { id: 3, nombre: 'Pared' },
-    { id: 4, nombre: 'Ventana' },
-  ];
+  ubicaciones: UbicacionDTO[] = [];
+
+  ngOnInit(): void {
+    this.ubicacionesService.obtenerTodosActivos().subscribe((ubicaciones) => {
+      this.ubicaciones = ubicaciones
+    })
+  }
 
   guardarCambios(){
-    console.log(this.form.value)
+    this.mesasService.crear(this.form.value as MesaCreacionDTO).subscribe(() => {
+      this.router.navigate(["/mesas"])
+    }) 
   }
 }

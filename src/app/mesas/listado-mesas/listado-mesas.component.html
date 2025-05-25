@@ -30,12 +30,22 @@
                     </mat-icon>
                     Editar
                 </a>
-                <button mat-flat-button class="warn">
-                    <mat-icon>
-                        delete
-                    </mat-icon>
-                    Eliminar
-                </button>
+                <button 
+                mat-flat-button 
+                class="warn" 
+                [swal]="{
+                    title: 'Confirmación',
+                    text: 'Deseas borrar este registro?',
+                    icon: 'success',
+                    showCancelButton: true
+                }"
+                (confirm)="eliminar(mesa.id)"
+            >
+                <mat-icon>
+                    delete
+                </mat-icon>
+                Eliminar
+            </button>
             </div>
         </div>
     }
