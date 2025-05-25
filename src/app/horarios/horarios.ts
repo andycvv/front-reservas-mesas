@@ -1,12 +1,17 @@
-export interface HorarioDTO{
+export interface HorarioDTO {
     id: number,
-    horaDeInicio: string,
-    horaDeFin: string,
+    horaInicio: string,
+    horaFin: string,
     estado: boolean
 }
 
-export interface HorarioCreacionDTO{
-    horaDeInicio: Date,
-    horaDeFin: Date,
+export interface HorarioCreacionDTO {
+    horaInicio: string,
+    horaFin: string,
+}
+
+export interface HorarioEdicionDTO {
+    horaInicio: string,
+    horaFin: string,
     estado: boolean
 }

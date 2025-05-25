@@ -52,9 +52,9 @@ export class CrearReservaComponent implements OnInit {
 
   ngOnInit(): void {
     this.horarios = [
-      { id: 1, horaDeInicio: '13:00', horaDeFin: '14:00', estado: true },
-      { id: 2, horaDeInicio: '15:00', horaDeFin: '16:00', estado: true },
-      { id: 3, horaDeInicio: '17:00', horaDeFin: '18:00', estado: true },
+      // { id: 1, horaInicio: '13:00', horaFin: '14:00', estado: true },
+      // { id: 2, horaInicio: '15:00', horaFin: '16:00', estado: true },
+      // { id: 3, horaInicio: '17:00', horaFin: '18:00', estado: true },
     ]
 
     this.mesaSeleccionadaId.valueChanges.subscribe(id => {

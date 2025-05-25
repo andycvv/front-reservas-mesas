@@ -1,4 +1,5 @@
-<app-titulo-principal [titulo]="'Listado de Horarios'" [parrafo]="'Revisa todos los horarios registrados en el sistema'"></app-titulo-principal>
+<app-titulo-principal [titulo]="'Listado de Horarios'"
+    [parrafo]="'Revisa todos los horarios registrados en el sistema'"></app-titulo-principal>
 
 <a mat-flat-button routerLink="/horarios/crear">
     <mat-icon>
@@ -9,28 +10,42 @@
 
 <div>
     @for (horario of horarios; track $index) {
-        <div class="contenedor-horario">
-            <div class="horario-header">
-                <h3>Horario</h3>
-                <span [class]="horario.estado ? 'habilitado' : 'deshabilitado'">
-                    {{horario.estado ? 'Habilitado' : 'Deshabilitado'}}
-                </span>
-            </div>
-            <p>Intervalo: {{horario.horaDeInicio}} - {{horario.horaDeFin}}</p>
-            <div class="contenedor-botones">
-                <a mat-flat-button [routerLink]="'/horarios/editar/' + horario.id">
-                    <mat-icon>
-                        edit
-                    </mat-icon>
-                    Editar
-                </a>
-                <button mat-flat-button class="warn">
-                    <mat-icon>
-                        delete
-                    </mat-icon>
-                    Eliminar
-                </button>
-            </div>
+    <div class="contenedor-horario">
+        <div class="horario-header">
+            <h3>Horario</h3>
+            <span [class]="horario.estado ? 'habilitado' : 'deshabilitado'">
+                {{horario.estado ? 'Habilitado' : 'Deshabilitado'}}
+            </span>
         </div>
+        <p>
+            Intervalo:
+            {{ convertirAHoraFecha(horario.horaInicio) | date:'hh:mm a' }} -
+            {{ convertirAHoraFecha(horario.horaFin) | date:'hh:mm a' }}
+        </p>
+        <div class="contenedor-botones">
+            <a mat-flat-button [routerLink]="'/horarios/editar/' + horario.id">
+                <mat-icon>
+                    edit
+                </mat-icon>
+                Editar
+            </a>
+            <button 
+                mat-flat-button 
+                class="warn"
+                [swal]="{
+                    title: 'Confirmación',
+                    text: 'Deseas borrar este registro?',
+                    icon: 'success',
+                    showCancelButton: true
+                }"
+                (confirm)="eliminar(horario.id)"
+            >
+                <mat-icon>
+                    delete
+                </mat-icon>
+                Eliminar
+            </button>
+        </div>
+    </div>
     }
 </div>

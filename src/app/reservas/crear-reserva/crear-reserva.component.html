@@ -14,7 +14,7 @@
     <mat-select formControlName="horarioId">
       <mat-option [value]="0">Seleccione un horario</mat-option>
       @for (horario of horarios; track horario.id) {
-      <mat-option [value]="horario.id">{{horario.horaDeInicio}} - {{horario.horaDeFin}}</mat-option>
+      <mat-option [value]="horario.id">{{horario.horaInicio}} - {{horario.horaFin}}</mat-option>
       }
     </mat-select>
   </mat-form-field>
