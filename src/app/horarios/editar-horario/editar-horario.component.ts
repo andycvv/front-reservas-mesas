@@ -8,13 +8,15 @@ import {
 import { TituloPrincipalComponent } from '../../compartidos/titulo-principal/titulo-principal.component';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
-import { HorarioCreacionDTO, HorarioDTO } from '../horarios';
+import { HorarioEdicionDTO } from '../horarios';
+import { HorariosService } from '../horarios.service';
+import { convertirDateAHoraString, convertirHoraStringADate } from '../../compartidos/funciones/convertirFechas';
 
 @Component({
   selector: 'app-editar-horario',
@@ -36,32 +38,39 @@ export class EditarHorarioComponent implements OnInit {
   @Input({ transform: numberAttribute })
   id!: number;
 
+  private horariosService = inject(HorariosService);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router)
 
   form = this.formBuilder.group({
-    horaDeInicio: new FormControl<Date | null>(null),
-    horaDeFin: new FormControl<Date | null>(null),
+    horaInicio: new FormControl<Date | null>(null),
+    horaFin: new FormControl<Date | null>(null),
     estado: [true],
   });
 
-  guardarCambios() {
-    console.log(this.form.value);
+  ngOnInit(): void {
+    this.horariosService.obtenerPorId(this.id).subscribe(horario => {
+      this.form.patchValue({
+        horaInicio: convertirHoraStringADate(horario.horaInicio),
+        horaFin: convertirHoraStringADate(horario.horaFin),
+        estado: horario.estado
+      })
+    })
   }
 
-  ngOnInit(): void {
-    const horario: HorarioCreacionDTO = {
-      horaDeInicio: this.timeStringToDate('9:00'),
-      horaDeFin: this.timeStringToDate('14:00'),
-      estado: false,
+  guardarCambios() {
+    const { horaInicio, horaFin, estado } = this.form.value;
+
+    if (!horaInicio || !horaFin) return;
+
+    const horario: HorarioEdicionDTO = {
+      horaInicio: convertirDateAHoraString(horaInicio),
+      horaFin: convertirDateAHoraString(horaFin),
+      estado: estado!
     };
 
-    this.form.patchValue(horario);
-  }
-
-  timeStringToDate(timeStr: string): Date {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const date = new Date(); // se usará solo la hora y minutos
-    date.setHours(hours, minutes, 0, 0);
-    return date;
+    this.horariosService.actualizar(this.id, horario).subscribe(() => {
+      this.router.navigate(['/horarios'])
+    });
   }
 }

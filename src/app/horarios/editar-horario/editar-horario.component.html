@@ -6,14 +6,14 @@
 <form [formGroup]="form" (submit)="guardarCambios()">
   <mat-form-field>
     <mat-label>Elige hora de inicio</mat-label>
-    <input matInput [matTimepicker]="picker" formControlName="horaDeInicio"/>
+    <input matInput [matTimepicker]="picker" formControlName="horaInicio"/>
     <mat-timepicker-toggle matIconSuffix [for]="picker" />
     <mat-timepicker #picker />
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Elige hora de fin</mat-label>
-    <input matInput [matTimepicker]="picker2" formControlName="horaDeFin"/>
+    <input matInput [matTimepicker]="picker2" formControlName="horaFin"/>
     <mat-timepicker-toggle matIconSuffix [for]="picker2" />
     <mat-timepicker #picker2 />
   </mat-form-field>
