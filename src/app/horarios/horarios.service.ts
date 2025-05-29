@@ -14,6 +14,10 @@ export class HorariosService {
     return this.http.get<HorarioDTO[]>(this.baseUrl + '/horarios');
   }
 
+  public obtenerTodosActivos() {
+    return this.http.get<HorarioDTO[]>(this.baseUrl + '/horarios/activos');
+  }
+
   public obtenerPorId(id: number) {
     return this.http.get<HorarioDTO>(this.baseUrl + '/horarios/' + id);
   }

@@ -1,10 +1,18 @@
 <mat-toolbar>
-    <a routerLink="/reservas/crear" mat-button>
+    <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon>
             auto_stories
         </mat-icon>
-        Crear Reserva
-    </a>
+        Reservas
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="'/reservas/crear'">
+            <mat-icon>add</mat-icon>
+            <span>Crear Reserva</span>
+        </button>
+    </mat-menu>
+
+
     <a routerLink="/mesas" mat-button>
         <mat-icon>
             table_restaurant
