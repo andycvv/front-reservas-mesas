@@ -4,7 +4,7 @@
 <form [formGroup]="form" (submit)="consultar()">
   <mat-form-field appearance="outline">
     <mat-label>Selecciona la fecha</mat-label>
-    <input formControlName="fecha" matInput [matDatepicker]="picker">
+    <input formControlName="fecha" matInput [matDatepicker]="picker" [min]="minFecha">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -36,7 +36,11 @@
   </div>
 </form>
 
-@if (mesasDisponibles.length > 0) {
+
+@if (cargando) {
+<app-loading></app-loading>
+}
+@else if (mesasDisponibles.length > 0) {
 <div class="contenedor-mesas-disponibles">
   <h3>Mesas disponibles</h3>
 
@@ -58,15 +62,15 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Nombre Completo</mat-label>
-    <input formControlName="nombre" matInput />
+    <input formControlName="nombre" matInput readonly />
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Teléfono</mat-label>
-    <input formControlName="telefono" matInput />
+    <input formControlName="telefono" matInput readonly />
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>DNI</mat-label>
-    <input formControlName="dni" matInput />
+    <input formControlName="dni" matInput readonly />
   </mat-form-field>
 
   <div class="contenedor-botones">

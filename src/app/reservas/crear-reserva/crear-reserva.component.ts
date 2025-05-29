@@ -11,6 +11,10 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MesaListadoDTO } from '../../mesas/mesas';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReservaCreacionDTO } from '../reservas';
+import { HorariosService } from '../../horarios/horarios.service';
+import { MesasService } from '../../mesas/mesas.service';
+import { ReservasService } from '../reservas.service';
+import { LoadingComponent } from "../../compartidos/loading/loading.component";
 
 @Component({
   selector: 'app-crear-reserva',
@@ -22,14 +26,20 @@ import { ReservaCreacionDTO } from '../reservas';
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatRadioModule
-  ],
+    MatRadioModule,
+    LoadingComponent
+],
   providers: [provideNativeDateAdapter()],
   templateUrl: './crear-reserva.component.html',
   styleUrl: './crear-reserva.component.css'
 })
 export class CrearReservaComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
+  private horariosService = inject(HorariosService);
+  private mesasService = inject(MesasService);
+  private reservasService = inject(ReservasService);
+  public minFecha: Date = new Date();
+  public cargando = false;
 
   form = this.formBuilder.group({
     fecha: new FormControl<Date | null>(null),
@@ -51,11 +61,11 @@ export class CrearReservaComponent implements OnInit {
   mesaSeleccionada?: MesaListadoDTO
 
   ngOnInit(): void {
-    this.horarios = [
-      // { id: 1, horaInicio: '13:00', horaFin: '14:00', estado: true },
-      // { id: 2, horaInicio: '15:00', horaFin: '16:00', estado: true },
-      // { id: 3, horaInicio: '17:00', horaFin: '18:00', estado: true },
-    ]
+    this.minFecha.setDate(this.minFecha.getDate() + 1);
+    
+    this.horariosService.obtenerTodosActivos().subscribe(horarios => {
+      this.horarios = horarios;
+    })
 
     this.mesaSeleccionadaId.valueChanges.subscribe(id => {
       this.mesaSeleccionada = this.mesasDisponibles.find(m => m.id === id);
@@ -67,16 +77,23 @@ export class CrearReservaComponent implements OnInit {
   }
 
   consultar() {
-    this.mesasDisponibles = [
-      { id: 1, numero: 3, capacidad: 2, estado: true, ubicacion: 'Ventana' },
-      { id: 2, numero: 5, capacidad: 10, estado: true, ubicacion: 'Pared' },
-      { id: 3, numero: 10, capacidad: 2, estado: false, ubicacion: 'Esquina' },
-      { id: 4, numero: 7, capacidad: 8, estado: true, ubicacion: 'Centro' },
-    ]
+    const { fecha, cantidadDePersonas, horarioId } = this.form.value
+
+    if (fecha && cantidadDePersonas && horarioId) {
+      this.mesaSeleccionadaId.patchValue(null);
+      this.mesaSeleccionada = undefined;
+      this.cargando = true;
+
+      const fechaFormateada = fecha.toISOString().split('T')[0];
+      this.mesasService.obtenerTodosDisponibles(fechaFormateada, horarioId, cantidadDePersonas)
+        .subscribe(mesas => {
+          this.mesasDisponibles = mesas;
+          this.cargando = false;
+        })
+    }
   }
 
   limpiar() {
-    this.formDatosPersonales.patchValue({ nombre: '', dni: '', telefono: '' })
     this.mesaSeleccionadaId.patchValue(0)
     this.mesasDisponibles = [];
     this.form.patchValue({ fecha: null, cantidadDePersonas: 0, horarioId: 0 });
@@ -85,11 +102,13 @@ export class CrearReservaComponent implements OnInit {
   crearReserva() {
     const reservaACrear: ReservaCreacionDTO = {
       clienteId: 2,
-      fechaDeReserva: this.form.controls.fecha.value!,
+      fecha: this.form.controls.fecha.value!,
       mesaId: this.mesaSeleccionada!.id,
       horarioId: this.form.controls.horarioId.value!,
     }
 
-    console.log(reservaACrear);
+    this.reservasService.crear(reservaACrear).subscribe(() => {
+      this.limpiar();
+    })
   }
 }
