@@ -9,6 +9,7 @@ import { ListadoHorariosComponent } from './horarios/listado-horarios/listado-ho
 import { CrearHorarioComponent } from './horarios/crear-horario/crear-horario.component';
 import { EditarHorarioComponent } from './horarios/editar-horario/editar-horario.component';
 import { CrearReservaComponent } from './reservas/crear-reserva/crear-reserva.component';
+import { ConfirmarReservasComponent } from './reservas/confirmar-reservas/confirmar-reservas.component';
 
 export const routes: Routes = [
     {
@@ -24,7 +25,7 @@ export const routes: Routes = [
         path: "ubicaciones", component: ListadoUbicacionesComponent
     },
     {
-        path: "ubicaciones/crear", component: CrearUbicacionComponent  
+        path: "ubicaciones/crear", component: CrearUbicacionComponent
     },
     {
         path: "ubicaciones/editar/:id", component: EditarUbicacionComponent
@@ -42,7 +43,9 @@ export const routes: Routes = [
         path: 'reservas/crear', component: CrearReservaComponent
     },
     {
+        path: 'reservas/confirmar', component: ConfirmarReservasComponent
+    },
+    {
         path: "**", redirectTo: "mesas"
     },
-    
 ];

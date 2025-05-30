@@ -1,0 +1,36 @@
+.contenedor-reserva {
+  padding: 30px;
+  background-color: white;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+
+  h3 {
+    margin: 0;
+  }
+
+  .contenedor-info {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 15px 0;
+
+    p {
+      margin: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      border-radius: 5px;
+      border: 1px solid black;
+      border-radius: 50px;
+      padding: 5px 20px;
+    }
+  }
+
+}
+
+h2 {
+  text-align: center;
+  color: rgb(176, 176, 176);
+}
