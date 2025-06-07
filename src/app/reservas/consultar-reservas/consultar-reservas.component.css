@@ -1,0 +1,59 @@
+form{
+    background-color: white;
+    padding: 25px;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+}
+
+.contenedor-reserva {
+  padding: 30px;
+  background-color: white;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+
+  h3 {
+    margin: 0;
+  }
+
+  .contenedor-info {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    p {
+      margin: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      border-radius: 5px;
+      border: 1px solid black;
+      border-radius: 50px;
+      padding: 5px 20px;
+    }
+  }
+
+}
+
+h2 {
+  text-align: center;
+  color: rgb(176, 176, 176);
+}
+
+.text-success{
+  color: #0E9C57;
+}
+
+.text-warning{
+  color: #DA4336;
+}
+
+.text-danger{
+  color: #BB0101;
+}
+
+button:disabled, button[disabled]{
+  background-color: #919191 !important;
+  color: white;
+}
