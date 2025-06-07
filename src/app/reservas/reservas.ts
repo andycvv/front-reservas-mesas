@@ -22,6 +22,19 @@ export interface FiltroReservas {
   numeroMesa: number;
 }
 
-export type EstadoReserva = {
-  estado: 'CONFIRMADA' | 'CANCELADA'
+export type EstadoReserva = 'CONFIRMADA' | 'PENDIENTE' | 'CANCELADA'
+
+export interface ReservaConsultaDTO {
+  id: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  numeroMesa: number;
+  capacidadMesa: number;
+  estado: EstadoReserva
+}
+
+export interface FiltroReservasCliente {
+  fecha: Date
+  estado: EstadoReserva
 }

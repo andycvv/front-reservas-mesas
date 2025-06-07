@@ -75,13 +75,13 @@ export class ConfirmarReservasComponent implements OnInit {
   }
 
   confirmar(id: number) {
-    this.reservasService.cambiarEstado(id, { estado: 'CONFIRMADA' }).subscribe(() => {
+    this.reservasService.cambiarEstado(id, 'CONFIRMADA').subscribe(() => {
       this.listarReservas();
     })
   }
 
   rechazar(id: number) {
-    this.reservasService.cambiarEstado(id, { estado: 'CANCELADA' }).subscribe(() => {
+    this.reservasService.cambiarEstado(id, 'CANCELADA').subscribe(() => {
       this.listarReservas();
     })
   }
