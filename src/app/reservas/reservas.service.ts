@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { EstadoReserva, ReservaCreacionDTO, ReservaListadoDTO } from './reservas';
+import { EstadoReserva, ReservaConsultaDTO, ReservaCreacionDTO, ReservaListadoDTO } from './reservas';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,15 @@ export class ReservasService {
     return this.http.post(this.baseUrl + '/reservas', reserva);
   }
 
+  public obtenerTodosPorClienteId(id: number) {
+    return this.http.get<ReservaConsultaDTO[]>(this.baseUrl + '/reservas/cliente/' + id)
+  }
+
   public obtenerTodosHoy() {
-    return this.http.get<ReservaListadoDTO[]>(this.baseUrl + '/reservas')
+    return this.http.get<ReservaListadoDTO[]>(this.baseUrl + '/reservas/hoy')
   }
 
   public cambiarEstado(id: number, estado: EstadoReserva) {
-    return this.http.patch(this.baseUrl + '/reservas/estado/' + id, estado)
+    return this.http.patch(this.baseUrl + '/reservas/estado/' + id, {estado})
   }
 } 
