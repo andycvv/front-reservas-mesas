@@ -56,7 +56,7 @@ export class ConfirmarReservasComponent implements OnInit {
   }
 
   listarReservas() {
-    this.reservasService.obtenerTodosHoy().subscribe(reservas => {
+    this.reservasService.obtenerTodosPendientes().subscribe(reservas => {
       this.reservasOriginales = reservas
       this.reservas = reservas;
     })
