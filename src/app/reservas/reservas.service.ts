@@ -18,8 +18,8 @@ export class ReservasService {
     return this.http.get<ReservaConsultaDTO[]>(this.baseUrl + '/reservas/cliente/' + id)
   }
 
-  public obtenerTodosHoy() {
-    return this.http.get<ReservaListadoDTO[]>(this.baseUrl + '/reservas/hoy')
+  public obtenerTodosPendientes() {
+    return this.http.get<ReservaListadoDTO[]>(this.baseUrl + '/reservas/pendientes')
   }
 
   public cambiarEstado(id: number, estado: EstadoReserva) {
