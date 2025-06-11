@@ -20,23 +20,38 @@
         </button>
     </mat-menu>
 
+    <button mat-button [matMenuTriggerFor]="mantenimientos">
+        <mat-icon>
+            security
+        </mat-icon>
+        Mantenimientos
+    </button>
+    <mat-menu #mantenimientos="matMenu">
+        <button mat-menu-item [routerLink]="'/mesas'">
+            <mat-icon>table_restaurant</mat-icon>
+            <span>Mesas</span>
+        </button>
+        <button mat-menu-item [routerLink]="'/ubicaciones'">
+            <mat-icon>pin_drop</mat-icon>
+            <span>Ubicaciones</span>
+        </button>
+        <button mat-menu-item [routerLink]="'/horarios'">
+            <mat-icon>schedule</mat-icon>
+            <span>Horarios</span>
+        </button>
+    </mat-menu>
 
-    <a routerLink="/mesas" mat-button>
+    
+    <button mat-button [matMenuTriggerFor]="reportes">
         <mat-icon>
-            table_restaurant
+            newspaper
         </mat-icon>
-        Mesas
-    </a>
-    <a routerLink="/ubicaciones" mat-button>
-        <mat-icon>
-            pin_drop
-        </mat-icon>
-        Ubicaciones
-    </a>
-    <a routerLink="/horarios" mat-button>
-        <mat-icon>
-            schedule
-        </mat-icon>
-        Horarios
-    </a>
+        Reportes
+    </button>
+    <mat-menu #reportes="matMenu">
+        <button mat-menu-item [routerLink]="'/reportes/reservas-por-fecha'">
+            <mat-icon>book</mat-icon>
+            <span>Reservas por fecha</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>
