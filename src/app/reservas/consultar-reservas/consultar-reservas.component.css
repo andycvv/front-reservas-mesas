@@ -1,8 +1,8 @@
-form{
-    background-color: white;
-    padding: 25px;
-    border-radius: 5px;
-    border: 1px solid gainsboro;
+form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
 }
 
 .contenedor-reserva {
@@ -41,19 +41,23 @@ h2 {
   color: rgb(176, 176, 176);
 }
 
-.text-success{
+.text-success {
+  font-weight: 500;
   color: #0E9C57;
 }
 
-.text-warning{
-  color: #DA4336;
+.text-warning {
+  font-weight: 500;
+  color: #da7a36;
 }
 
-.text-danger{
+.text-danger {
+  font-weight: 500;
   color: #BB0101;
 }
 
-button:disabled, button[disabled]{
+button:disabled,
+button[disabled] {
   background-color: #919191 !important;
   color: white;
 }
