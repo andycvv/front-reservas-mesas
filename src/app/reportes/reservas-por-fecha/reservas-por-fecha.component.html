@@ -1,0 +1,57 @@
+<app-titulo-principal titulo="Reportes de reservas por fecha" parrafo="Consulta y exporta las reservas por fecha" />
+
+<div class="formulario">
+  <mat-form-field>
+    <mat-label>Ingrese un rango</mat-label>
+    <mat-date-range-input 
+      [formGroup]="range" 
+      [rangePicker]="picker"
+      [dateFilter]="deshabilitarFuturas"
+    >
+      <input matStartDate formControlName="fechaInicio" placeholder="Start date">
+      <input matEndDate formControlName="fechaFin" placeholder="End date">
+    </mat-date-range-input>
+    <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <button mat-flat-button (click)="consultar()">Consultar</button>
+</div>
+
+@if (reporte) {
+  <div class="reporte-container">
+    <div class="div-texto">
+      <h2>Reservas por día</h2>
+      <mat-chip>{{reporte.numeroDeDias}} días</mat-chip>
+    </div>
+
+    @for (dia of diasDeLaSemana; track $index) {
+      <span>{{dia}}: {{reporte.reservasPorDia[dia] || 0}}</span>
+      <mat-progress-bar mode="determinate"
+        [value]="calcularPorcentaje(reporte.reservasPorDia[dia] || 0)"></mat-progress-bar>
+    }
+
+    <hr />
+
+    <div class="div-texto">
+      <span>Total reservas:</span>
+      <strong>{{reporte.totalReservas}}</strong>
+    </div>
+
+    <div class="div-texto">
+      <span>Promedio diario:</span>
+      <strong>{{reporte.promedioDiario | number:'1.2-2'}}</strong>
+    </div>
+
+    <div class="div-texto">
+      <span>Cancelaciones:</span>
+      <strong>{{reporte.cancelaciones}}</strong>
+    </div>
+
+    <button mat-flat-button (click)="generarPDF()" [disabled]="!reporte">
+      <mat-icon>download</mat-icon>
+      Exportar en PDF
+    </button>
+  </div>
+}
