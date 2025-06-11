@@ -11,6 +11,7 @@ import { EditarHorarioComponent } from './horarios/editar-horario/editar-horario
 import { CrearReservaComponent } from './reservas/crear-reserva/crear-reserva.component';
 import { ConfirmarReservasComponent } from './reservas/confirmar-reservas/confirmar-reservas.component';
 import { ConsultarReservasComponent } from './reservas/consultar-reservas/consultar-reservas.component';
+import { ReservasPorFechaComponent } from './reportes/reservas-por-fecha/reservas-por-fecha.component';
 
 export const routes: Routes = [
     {
@@ -48,6 +49,9 @@ export const routes: Routes = [
     },
     {
         path: 'reservas/consultar', component: ConsultarReservasComponent
+    },
+    {
+        path: 'reportes/reservas-por-fecha', component: ReservasPorFechaComponent
     },
     {
         path: "**", redirectTo: "mesas"
