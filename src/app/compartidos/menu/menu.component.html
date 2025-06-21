@@ -1,57 +1,73 @@
 <mat-toolbar>
-    <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>
-            auto_stories
-        </mat-icon>
-        Reservas
-    </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item [routerLink]="'/reservas/crear'">
-            <mat-icon>add</mat-icon>
-            <span>Crear Reserva</span>
-        </button>
-        <button mat-menu-item [routerLink]="'/reservas/confirmar'">
-            <mat-icon>check</mat-icon>
-            <span>Confirmar reservas</span>
-        </button>
-        <button mat-menu-item [routerLink]="'/reservas/consultar'">
-            <mat-icon>search</mat-icon>
-            <span>Consultar reservas</span>
-        </button>
-    </mat-menu>
+    @if (isLogged) {
+        @if (roles.includes('ROLE_CLIENTE') || roles.includes('ROLE_RECEPCIONISTA')) {
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>
+                    auto_stories
+                </mat-icon>
+                Reservas
+            </button>
+            <mat-menu #menu="matMenu">
+                @if (roles.includes('ROLE_CLIENTE')) {
+                <button mat-menu-item [routerLink]="'/reservas/crear'">
+                    <mat-icon>add</mat-icon>
+                    <span>Crear Reserva</span>
+                </button>
+                <button mat-menu-item [routerLink]="'/reservas/consultar'">
+                    <mat-icon>search</mat-icon>
+                    <span>Consultar reservas</span>
+                </button>
+                }
+                @if (roles.includes('ROLE_RECEPCIONISTA')) {
+                <button mat-menu-item [routerLink]="'/reservas/confirmar'">
+                    <mat-icon>check</mat-icon>
+                    <span>Confirmar reservas</span>
+                </button>
+                }
+            </mat-menu>
+        }
 
-    <button mat-button [matMenuTriggerFor]="mantenimientos">
-        <mat-icon>
-            security
-        </mat-icon>
-        Mantenimientos
-    </button>
-    <mat-menu #mantenimientos="matMenu">
-        <button mat-menu-item [routerLink]="'/mesas'">
-            <mat-icon>table_restaurant</mat-icon>
-            <span>Mesas</span>
-        </button>
-        <button mat-menu-item [routerLink]="'/ubicaciones'">
-            <mat-icon>pin_drop</mat-icon>
-            <span>Ubicaciones</span>
-        </button>
-        <button mat-menu-item [routerLink]="'/horarios'">
-            <mat-icon>schedule</mat-icon>
-            <span>Horarios</span>
-        </button>
-    </mat-menu>
+        @if (roles.includes('ROLE_ADMINISTRADOR')) {
+            <button mat-button [matMenuTriggerFor]="mantenimientos">
+                <mat-icon>
+                    security
+                </mat-icon>
+                Mantenimiento
+            </button>
+            <mat-menu #mantenimientos="matMenu">
+                <button mat-menu-item [routerLink]="'/mesas'">
+                    <mat-icon>table_restaurant</mat-icon>
+                    <span>Mesas</span>
+                </button>
+                <button mat-menu-item [routerLink]="'/ubicaciones'">
+                    <mat-icon>pin_drop</mat-icon>
+                    <span>Ubicaciones</span>
+                </button>
+                <button mat-menu-item [routerLink]="'/horarios'">
+                    <mat-icon>schedule</mat-icon>
+                    <span>Horarios</span>
+                </button>
+            </mat-menu>
 
-    
-    <button mat-button [matMenuTriggerFor]="reportes">
-        <mat-icon>
-            newspaper
-        </mat-icon>
-        Reportes
-    </button>
-    <mat-menu #reportes="matMenu">
-        <button mat-menu-item [routerLink]="'/reportes/reservas-por-fecha'">
-            <mat-icon>book</mat-icon>
-            <span>Reservas por fecha</span>
+            <button mat-button [matMenuTriggerFor]="reportes">
+                <mat-icon>
+                    newspaper
+                </mat-icon>
+                Reportes
+            </button>
+            <mat-menu #reportes="matMenu">
+                <button mat-menu-item [routerLink]="'/reportes/reservas-por-fecha'">
+                    <mat-icon>book</mat-icon>
+                    <span>Reservas por fecha</span>
+                </button>
+            </mat-menu>
+        }
+
+        <span class="spacer"></span>
+
+        <button mat-flat-button (click)="salir()">
+            <mat-icon>logout</mat-icon>
+            Salir
         </button>
-    </mat-menu>
+    }
 </mat-toolbar>
