@@ -1,0 +1,14 @@
+form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 5px;
+  border: 1px solid gainsboro;
+}
+
+button {
+  margin-right: .5rem;
+}
+
+p {
+  color: red;
+}
