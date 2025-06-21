@@ -50,7 +50,7 @@ export class ConsultarReservasComponent implements OnInit {
   reservas: ReservaConsultaDTO[] = [];
 
   listarReservas() {
-    this.reservasService.obtenerTodosPorClienteId(2).subscribe((data) => {
+    this.reservasService.obtenerTodosDelCliente().subscribe((data) => {
       this.reservasOriginales = data;
       this.reservas = data;
     });
@@ -85,7 +85,7 @@ export class ConsultarReservasComponent implements OnInit {
   }
 
   rechazar(id: number) {
-    this.reservasService.cambiarEstado(id, 'CANCELADA').subscribe(() => {
+    this.reservasService.cancelar(id).subscribe(() => {
       this.listarReservas();
     });
   }
