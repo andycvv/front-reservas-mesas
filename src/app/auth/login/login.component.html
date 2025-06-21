@@ -1,0 +1,19 @@
+<app-titulo-principal titulo="Ingresa al sistema" parrafo="Ingresa al sistema mediante tu DNI y clave" />
+
+<form [formGroup]="form" (submit)="ingresar()">
+  <mat-form-field appearance="outline">
+    <mat-label>DNI</mat-label>
+    <input matInput formControlName="dni" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input type="password" matInput formControlName="clave" />
+  </mat-form-field>
+
+  @if (error) {
+    <p>Credenciales incorrectas</p>
+  }
+
+  <button mat-flat-button [disabled]="form.invalid">Ingresar</button>
+  <a mat-stroked-button routerLink="/auth/registrar">Regístrate</a>
+</form>

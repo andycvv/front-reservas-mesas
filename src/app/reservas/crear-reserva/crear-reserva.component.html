@@ -59,15 +59,7 @@
 @if (mesaSeleccionada) {
 <form [formGroup]="formDatosPersonales" (submit)="crearReserva()">
   <h3>Datos personales</h3>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Nombre Completo</mat-label>
-    <input formControlName="nombre" matInput readonly />
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Teléfono</mat-label>
-    <input formControlName="telefono" matInput readonly />
-  </mat-form-field>
+  
   <mat-form-field appearance="outline">
     <mat-label>DNI</mat-label>
     <input formControlName="dni" matInput readonly />

@@ -12,48 +12,84 @@ import { CrearReservaComponent } from './reservas/crear-reserva/crear-reserva.co
 import { ConfirmarReservasComponent } from './reservas/confirmar-reservas/confirmar-reservas.component';
 import { ConsultarReservasComponent } from './reservas/consultar-reservas/consultar-reservas.component';
 import { ReservasPorFechaComponent } from './reportes/reservas-por-fecha/reservas-por-fecha.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegistrarComponent } from './auth/registrar/registrar.component';
+import { roleGuard } from './auth/role.guard';
+import { authGuard } from './auth/auth.guard';
+import { Roles } from './auth/roles';
+import { NotFoundComponent } from './auth/not-found/not-found.component';
 
 export const routes: Routes = [
-    {
-        path: "mesas", component: ListadoMesasComponent
-    },
-    {
-        path: "mesas/crear", component: CrearMesaComponent
-    },
-    {
-        path: "mesas/editar/:id", component: EditarMesaComponent
-    },
-    {
-        path: "ubicaciones", component: ListadoUbicacionesComponent
-    },
-    {
-        path: "ubicaciones/crear", component: CrearUbicacionComponent
-    },
-    {
-        path: "ubicaciones/editar/:id", component: EditarUbicacionComponent
-    },
-    {
-        path: "horarios", component: ListadoHorariosComponent
-    },
-    {
-        path: "horarios/crear", component: CrearHorarioComponent
-    },
-    {
-        path: "horarios/editar/:id", component: EditarHorarioComponent
-    },
-    {
-        path: 'reservas/crear', component: CrearReservaComponent
-    },
-    {
-        path: 'reservas/confirmar', component: ConfirmarReservasComponent
-    },
-    {
-        path: 'reservas/consultar', component: ConsultarReservasComponent
-    },
-    {
-        path: 'reportes/reservas-por-fecha', component: ReservasPorFechaComponent
-    },
-    {
-        path: "**", redirectTo: "mesas"
-    },
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+  { path: 'auth/login', component: LoginComponent, canActivate: [authGuard] },
+  { path: 'auth/registrar', component: RegistrarComponent, canActivate: [authGuard] },
+
+  {
+    path: 'mesas',
+    canActivate: [roleGuard],
+    data: { role: Roles.ADMIN },
+    children: [
+      { path: '', component: ListadoMesasComponent },
+      { path: 'crear', component: CrearMesaComponent },
+      { path: 'editar/:id', component: EditarMesaComponent }
+    ]
+  },
+
+  {
+    path: 'ubicaciones',
+    canActivate: [roleGuard],
+    data: { role: Roles.ADMIN },
+    children: [
+      { path: '', component: ListadoUbicacionesComponent },
+      { path: 'crear', component: CrearUbicacionComponent },
+      { path: 'editar/:id', component: EditarUbicacionComponent }
+    ]
+  },
+
+  {
+    path: 'horarios',
+    canActivate: [roleGuard],
+    data: { role: Roles.ADMIN },
+    children: [
+      { path: '', component: ListadoHorariosComponent },
+      { path: 'crear', component: CrearHorarioComponent },
+      { path: 'editar/:id', component: EditarHorarioComponent }
+    ]
+  },
+
+  {
+    path: 'reservas',
+    children: [
+      {
+        path: 'crear',
+        component: CrearReservaComponent,
+        canActivate: [roleGuard],
+        data: { role: Roles.CLIENTE }
+      },
+      {
+        path: 'consultar',
+        component: ConsultarReservasComponent,
+        canActivate: [roleGuard],
+        data: { role: Roles.CLIENTE }
+      },
+      {
+        path: 'confirmar',
+        component: ConfirmarReservasComponent,
+        canActivate: [roleGuard],
+        data: { role: Roles.RECEPCIONISTA }
+      }
+    ]
+  },
+
+  {
+    path: 'reportes',
+    canActivate: [roleGuard],
+    data: { role: Roles.ADMIN },
+    children: [
+      { path: 'reservas-por-fecha', component: ReservasPorFechaComponent }
+    ]
+  },
+
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '404' }
 ];

@@ -65,7 +65,7 @@ export class ConfirmarReservasComponent implements OnInit {
   buscarReservas(valores: FiltroReservas) {
     if (valores.nombreCliente) {
       this.reservas = this.reservas
-        .filter(reserva => reserva.nombreCliente.indexOf(valores.nombreCliente) !== -1)
+        .filter(reserva => reserva.nombreCliente.toLowerCase().indexOf(valores.nombreCliente.toLowerCase()) !== -1)
     }
 
     if (valores.numeroMesa !== 0) {

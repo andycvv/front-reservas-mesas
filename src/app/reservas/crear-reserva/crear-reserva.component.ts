@@ -15,6 +15,7 @@ import { HorariosService } from '../../horarios/horarios.service';
 import { MesasService } from '../../mesas/mesas.service';
 import { ReservasService } from '../reservas.service';
 import { LoadingComponent } from "../../compartidos/loading/loading.component";
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-crear-reserva',
@@ -38,6 +39,8 @@ export class CrearReservaComponent implements OnInit {
   private horariosService = inject(HorariosService);
   private mesasService = inject(MesasService);
   private reservasService = inject(ReservasService);
+  private authService= inject(AuthService);
+
   public minFecha: Date = new Date();
   public cargando = false;
 
@@ -72,7 +75,7 @@ export class CrearReservaComponent implements OnInit {
     })
 
     this.formDatosPersonales.patchValue({
-      dni: '78092832', nombre: 'Piero', telefono: '978676678'
+      dni: this.authService.getDni()
     });
   }
 

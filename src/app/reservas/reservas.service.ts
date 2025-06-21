@@ -14,8 +14,8 @@ export class ReservasService {
     return this.http.post(this.baseUrl + '/reservas', reserva);
   }
 
-  public obtenerTodosPorClienteId(id: number) {
-    return this.http.get<ReservaConsultaDTO[]>(this.baseUrl + '/reservas/cliente/' + id)
+  public obtenerTodosDelCliente() {
+    return this.http.get<ReservaConsultaDTO[]>(this.baseUrl + '/reservas/mis-reservas')
   }
 
   public obtenerTodosPendientes() {
@@ -23,6 +23,10 @@ export class ReservasService {
   }
 
   public cambiarEstado(id: number, estado: EstadoReserva) {
-    return this.http.patch(this.baseUrl + '/reservas/estado/' + id, {estado})
+    return this.http.patch(this.baseUrl + '/reservas/estado/' + id, { estado })
+  }
+
+  public cancelar(id: number) {
+    return this.http.patch(this.baseUrl + '/reservas/cancelar/' + id, null)
   }
 } 

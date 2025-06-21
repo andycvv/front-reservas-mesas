@@ -1,0 +1,31 @@
+<app-titulo-principal titulo="Registrate" parrafo="Registrate con tus datos personales" />
+
+<form [formGroup]="form" (submit)="registrar()">
+  <mat-form-field appearance="outline">
+    <mat-label>DNI</mat-label>
+    <input matInput formControlName="dni" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input type="password" matInput formControlName="clave" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Apellido Paterno</mat-label>
+    <input matInput formControlName="apellidoPaterno" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Apellido Materno</mat-label>
+    <input matInput formControlName="apellidoMaterno" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Telefono</mat-label>
+    <input matInput formControlName="telefono" />
+  </mat-form-field>
+
+  <button mat-flat-button [disabled]="form.invalid">Registrarse</button>
+  <a mat-stroked-button routerLink="/auth/login">Ingresa</a>
+</form>
