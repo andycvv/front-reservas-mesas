@@ -9,7 +9,7 @@ export const routes: Routes = [
     canActivate: [roleGuard],
     data: { role: Roles.ADMIN },
     children: [
-      { path: '', component: ReservasPorFechaComponent },
+      { path: 'reservas-por-fecha', component: ReservasPorFechaComponent },
     ]
   }
 ]
