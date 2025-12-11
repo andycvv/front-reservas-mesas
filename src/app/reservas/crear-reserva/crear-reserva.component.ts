@@ -47,7 +47,7 @@ export class CrearReservaComponent implements OnInit {
   form = this.formBuilder.group({
     fecha: new FormControl<Date | null>(null),
     horarioId: [0],
-    cantidadDePersonas: [0]
+    cantidadDePersonas: [1]
   });
 
   formDatosPersonales = this.formBuilder.group({

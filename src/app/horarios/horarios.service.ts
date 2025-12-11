@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HorarioCreacionDTO, HorarioDTO, HorarioEdicionDTO } from './horarios';
+import { PageableResponse } from '../compartidos/interfaces/pageable-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,11 @@ export class HorariosService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl;
 
-  public obtenerTodos() {
-    return this.http.get<HorarioDTO[]>(this.baseUrl + '/horarios');
+  public obtenerTodos(page: number = 0, size: number = 10) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageableResponse<HorarioDTO[]>>(this.baseUrl + '/horarios', { params });
   }
 
   public obtenerTodosActivos() {

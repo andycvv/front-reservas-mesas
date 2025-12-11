@@ -8,6 +8,8 @@ import { DatePipe } from '@angular/common';
 import { HorariosService } from '../horarios.service';
 import { convertirHoraStringADate } from '../../compartidos/funciones/convertirFechas';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal from 'sweetalert2';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-listado-horarios',
@@ -17,7 +19,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MatButtonModule,
     RouterLink,
     DatePipe,
-    SweetAlert2Module
+    SweetAlert2Module,
+    MatPaginatorModule
   ],
   templateUrl: './listado-horarios.component.html',
   styleUrl: './listado-horarios.component.css'
@@ -26,21 +29,45 @@ export class ListadoHorariosComponent implements OnInit {
   private horariosService = inject(HorariosService);
 
   horarios: HorarioDTO[] = []
+  totalElements = 0;
+  pageSize = 10;
+  pageIndex = 0;
 
   ngOnInit(): void {
     this.actualizarListado();
   }
 
   eliminar(id: number) {
-    this.horariosService.eliminar(id).subscribe(() => {
-      this.actualizarListado();
+    this.horariosService.eliminar(id).subscribe({
+      next: () => {
+        this.actualizarListado();
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Horario eliminado correctamente',
+          icon: 'success'
+        });
+      },
+      error: (error) => {
+        Swal.fire({
+          title: 'Advertencia',
+          text: error.error.message || 'No se pudo eliminar el horario',
+          icon: 'warning'
+        });
+      }
     })
   }
 
   actualizarListado() {
-    this.horariosService.obtenerTodos().subscribe(horarios => {
-      this.horarios = horarios
+    this.horariosService.obtenerTodos(this.pageIndex, this.pageSize).subscribe(res => {
+      this.horarios = res.content;
+      this.totalElements = res.totalElements;
     });
+  }
+  
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.actualizarListado();
   }
   
   convertirAHoraFecha(hora: string): Date {

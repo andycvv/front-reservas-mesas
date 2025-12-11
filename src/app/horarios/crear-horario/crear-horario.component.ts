@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { TituloPrincipalComponent } from "../../compartidos/titulo-principal/titulo-principal.component";
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router, RouterLink } from '@angular/router';
 import { MatTimepickerModule } from '@angular/material/timepicker';
@@ -10,7 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { HorariosService } from '../horarios.service';
 import { HorarioCreacionDTO } from '../horarios';
 import { convertirDateAHoraString } from '../../compartidos/funciones/convertirFechas';
-
+import { MatError } from '@angular/material/form-field';
+import { horaInicioMenorQueHoraFin } from '../../compartidos/funciones/validarHorarios';
 
 @Component({
   selector: 'app-crear-horario',
@@ -22,7 +23,8 @@ import { convertirDateAHoraString } from '../../compartidos/funciones/convertirF
     RouterLink,
     MatTimepickerModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatError
   ],
   templateUrl: './crear-horario.component.html',
   styleUrl: './crear-horario.component.css'
@@ -35,9 +37,11 @@ export class CrearHorarioComponent {
   form = this.formBuilder.group({
     horaInicio: new FormControl<Date | null>(null),
     horaFin: new FormControl<Date | null>(null)
-  })
+  }, { validators: horaInicioMenorQueHoraFin() })
 
   guardarCambios() {
+    if (this.form.invalid) return;
+
     const { horaInicio, horaFin } = this.form.value;
 
     if (!horaInicio || !horaFin) return;

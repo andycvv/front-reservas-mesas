@@ -18,8 +18,12 @@
     <mat-timepicker #picker2 />
   </mat-form-field>
 
+  @if (form.errors?.['horaInicioInvalida'] && form.touched) {
+    <mat-error>La hora de inicio debe ser anterior a la hora de fin</mat-error>
+  }
+
   <div class="contenedor-botones">
-    <button mat-flat-button>Guardar</button>
+    <button [disabled]="form.invalid" mat-flat-button>Guardar</button>
     <a mat-stroked-button routerLink="/horarios">Cancelar</a>
   </div>
 </form>

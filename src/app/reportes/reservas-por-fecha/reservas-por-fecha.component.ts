@@ -50,7 +50,7 @@ export class ReservasPorFechaComponent {
     if (!fecha) return false;
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-    return fecha < hoy;
+    return fecha <= hoy;
   };
 
 

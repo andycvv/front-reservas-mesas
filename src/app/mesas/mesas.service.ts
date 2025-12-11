@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MesaCreacionDTO, MesaDTO, MesaEdicionDTO, MesaListadoDTO } from './mesas';
+import { PageableResponse } from '../compartidos/interfaces/pageable-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,15 @@ export class MesasService {
   private baseURL = environment.baseUrl
   private http = inject(HttpClient)
 
-  public obtenerTodos() {
-    return this.http.get<MesaListadoDTO[]>(this.baseURL + "/mesas")
+  public obtenerTodos(page: number = 0, size: number = 10) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageableResponse<MesaListadoDTO[]>>(this.baseURL + "/mesas", { params })
+  }
+
+  public obtenerTodosActivos() {
+    return this.http.get<MesaListadoDTO[]>(this.baseURL + "/mesas/activos")
   }
 
   public obtenerTodosDisponibles(fecha: string, horarioId: number, capacidad: number) {

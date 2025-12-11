@@ -21,18 +21,11 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Cantida de Personas</mat-label>
-    <mat-select formControlName="cantidadDePersonas">
-      <mat-option [value]="0">Seleccione una cantidad</mat-option>
-      <mat-option [value]="2">2</mat-option>
-      <mat-option [value]="4">4</mat-option>
-      <mat-option [value]="6">6</mat-option>
-      <mat-option [value]="8">8</mat-option>
-      <mat-option [value]="10">10</mat-option>
-    </mat-select>
+    <input formControlName="cantidadDePersonas" matInput type="number" min="1" />
   </mat-form-field>
 
   <div class="contenedor-botones">
-    <button mat-flat-button>Consultar</button>
+    <button mat-flat-button [disabled]="form.invalid">Consultar</button>
   </div>
 </form>
 

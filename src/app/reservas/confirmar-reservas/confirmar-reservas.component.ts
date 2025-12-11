@@ -12,6 +12,7 @@ import { MesaListadoDTO } from '../../mesas/mesas';
 import { MesasService } from '../../mesas/mesas.service';
 import { ReservasService } from '../reservas.service';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-confirmar-reservas',
@@ -24,7 +25,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MatSelectModule,
     MatIconModule,
     DatePipe,
-    SweetAlert2Module
+    SweetAlert2Module,
+    MatPaginatorModule
   ],
   templateUrl: './confirmar-reservas.component.html',
   styleUrl: './confirmar-reservas.component.css'
@@ -32,6 +34,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 export class ConfirmarReservasComponent implements OnInit {
   reservasOriginales: ReservaListadoDTO[] = [];
   reservas: ReservaListadoDTO[] = [];
+  totalElements = 0;
+  pageSize = 10;
+  pageIndex = 0;
 
   mesas: MesaListadoDTO[] = [];
 
@@ -47,31 +52,30 @@ export class ConfirmarReservasComponent implements OnInit {
   ngOnInit(): void {
     this.listarReservas();
 
-    this.mesasService.obtenerTodos().subscribe(mesas => this.mesas = mesas)
+    this.mesasService.obtenerTodos().subscribe(res => this.mesas = res.content);
 
     this.form.valueChanges.subscribe(valores => {
       this.reservas = this.reservasOriginales
-      this.buscarReservas(valores as FiltroReservas);
     })
   }
 
   listarReservas() {
-    this.reservasService.obtenerTodosPendientes().subscribe(reservas => {
-      this.reservasOriginales = reservas
-      this.reservas = reservas;
+    this.reservasService.obtenerTodosPendientes(
+      this.pageIndex, 
+      this.pageSize, 
+      this.form.value.nombreCliente, 
+      this.form.value.numeroMesa
+    ).subscribe(res => {
+      this.reservasOriginales = res.content
+      this.reservas = res.content;
+      this.totalElements = res.totalElements;
     })
   }
 
-  buscarReservas(valores: FiltroReservas) {
-    if (valores.nombreCliente) {
-      this.reservas = this.reservas
-        .filter(reserva => reserva.nombreCliente.toLowerCase().indexOf(valores.nombreCliente.toLowerCase()) !== -1)
-    }
-
-    if (valores.numeroMesa !== 0) {
-      this.reservas = this.reservas
-        .filter(reserva => reserva.numeroMesa === valores.numeroMesa)
-    }
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.listarReservas();
   }
 
   confirmar(id: number) {
@@ -84,5 +88,13 @@ export class ConfirmarReservasComponent implements OnInit {
     this.reservasService.cambiarEstado(id, 'CANCELADA').subscribe(() => {
       this.listarReservas();
     })
+  }
+
+  limpiarFiltros() {
+    this.form.reset({
+      nombreCliente: '',
+      numeroMesa: 0
+    });
+    this.listarReservas();
   }
 }

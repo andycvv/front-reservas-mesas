@@ -17,6 +17,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { HorarioEdicionDTO } from '../horarios';
 import { HorariosService } from '../horarios.service';
 import { convertirDateAHoraString, convertirHoraStringADate } from '../../compartidos/funciones/convertirFechas';
+import { horaInicioMenorQueHoraFin } from '../../compartidos/funciones/validarHorarios';
 
 @Component({
   selector: 'app-editar-horario',
@@ -46,7 +47,7 @@ export class EditarHorarioComponent implements OnInit {
     horaInicio: new FormControl<Date | null>(null),
     horaFin: new FormControl<Date | null>(null),
     estado: [true],
-  });
+  }, { validators: horaInicioMenorQueHoraFin() });
 
   ngOnInit(): void {
     this.horariosService.obtenerPorId(this.id).subscribe(horario => {

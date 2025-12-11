@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UbicacionCreacionDTO, UbicacionDTO, UbicacionEdicionDTO } from './ubicaciones';
 import { environment } from '../../environments/environment';
+import { PageableResponse } from '../compartidos/interfaces/pageable-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,11 @@ export class UbicacionesService {
   private baseUrl = environment.baseUrl;
   private http = inject(HttpClient);
 
-  public obtenerTodos() {
-    return this.http.get<UbicacionDTO[]>(this.baseUrl + '/ubicaciones');
+  public obtenerTodos(page: number = 0, size: number = 10) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageableResponse<UbicacionDTO[]>>(this.baseUrl + '/ubicaciones', { params });
   }
 
   public obtenerTodosActivos() {

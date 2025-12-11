@@ -1,6 +1,6 @@
 import { Component, inject, Input, numberAttribute, OnInit } from '@angular/core';
 import { TituloPrincipalComponent } from '../../compartidos/titulo-principal/titulo-principal.component';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,7 +38,7 @@ export class EditarMesaComponent implements OnInit {
 
   form = this.formBuilder.group({
     numero: [0],
-    capacidad: [0],
+    capacidad: [0, [Validators.min(1), Validators.max(20)]],
     ubicacionId: [0],
     estado: [true],
   });
@@ -51,7 +51,7 @@ export class EditarMesaComponent implements OnInit {
     })
 
     this.ubicacionesService.obtenerTodosActivos().subscribe((ubicaciones) => {
-      this.ubicaciones = ubicaciones
+      this.ubicaciones = ubicaciones;
     })
   }
 

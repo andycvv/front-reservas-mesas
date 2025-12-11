@@ -17,6 +17,7 @@ import {
   ReservaConsultaDTO,
 } from '../reservas';
 import { convertirHoraStringADate } from '../../compartidos/funciones/convertirFechas';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-consultar-reservas',
@@ -32,6 +33,7 @@ import { convertirHoraStringADate } from '../../compartidos/funciones/convertirF
     DatePipe,
     MatDatepickerModule,
     NgClass,
+    MatPaginatorModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './consultar-reservas.component.html',
@@ -48,40 +50,31 @@ export class ConsultarReservasComponent implements OnInit {
 
   reservasOriginales: ReservaConsultaDTO[] = [];
   reservas: ReservaConsultaDTO[] = [];
+  totalElements = 0;
+  pageSize = 10;
+  pageIndex = 0;
 
   listarReservas() {
-    this.reservasService.obtenerTodosDelCliente().subscribe((data) => {
-      this.reservasOriginales = data;
-      this.reservas = data;
+    const estado = this.form.value.estado;
+    const fechaConvertida = this.form.value.fecha ? this.toLocalDateString(this.form.value.fecha) : null;
+
+    this.reservasService.obtenerTodosDelCliente(this.pageIndex, this.pageSize, estado, fechaConvertida).subscribe((res) => {
+      this.reservasOriginales = res.content;
+      this.reservas = res.content;
+      this.totalElements = res.totalElements;
     });
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.listarReservas();
   }
 
   toLocalDateString = (date: Date) => date.toISOString().slice(0, 10);
 
-  buscarReservas(valores: FiltroReservasCliente) {
-    if (valores.fecha) {
-      this.reservas = this.reservas.filter((reserva) => {
-        const fechaReserva = new Date(reserva.fecha);
-        const fechaFiltro = valores.fecha;
-        return (
-          this.toLocalDateString(fechaReserva) === this.toLocalDateString(fechaFiltro)
-        );
-      });
-    }
-
-    if (valores.estado) {
-      this.reservas = this.reservas.filter(
-        (reserva) => reserva.estado === valores.estado
-      );
-    }
-  }
-
   ngOnInit(): void {
     this.listarReservas();
-    this.form.valueChanges.subscribe((valores) => {
-      this.reservas = this.reservasOriginales;
-      this.buscarReservas(valores as FiltroReservasCliente);
-    });
   }
 
   rechazar(id: number) {
@@ -95,5 +88,6 @@ export class ConsultarReservasComponent implements OnInit {
       fecha: null,
       estado: null
     })
+    this.listarReservas();
   }
 }
