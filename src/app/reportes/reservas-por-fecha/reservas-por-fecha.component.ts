@@ -46,13 +46,6 @@ export class ReservasPorFechaComponent {
 
   today = new Date();
 
-  deshabilitarFuturas = (fecha: Date | null): boolean => {
-    if (!fecha) return false;
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    return fecha <= hoy;
-  };
-
 
   consultar() {
     const { fechaInicio, fechaFin } = this.range.value
